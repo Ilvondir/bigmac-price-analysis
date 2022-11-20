@@ -25,10 +25,11 @@ recordsByYear<-Year(ds$date) %>%
   data.frame()
 recordsByYear
 
-ggplot(recordsByYear, aes(x=., y=Freq)) + geom_bar(stat="identity",
-                                                   width=0.6,
-                                                   fill="indianred1") + theme_minimal() + labs(title="Number of records by year",
-                                                                                         x="Year", y="Frequetion")
+ggplot(recordsByYear, aes(x=., y=Freq)) +
+  geom_bar(stat="identity", width=0.6, fill="indianred1") +
+  theme_minimal() +
+  labs(title="Number of records by year", x="Year", y="Frequetion")
+
 ggsave("results/recordsByYear.png",
         width=600,
         height=400,
@@ -42,12 +43,29 @@ polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
 names(polandAndNeighDS)<-c("Date", "Country", "dollarPrice")
 polandAndNeighDS
 
-ggplot(polandAndNeighDS, aes(x=Country, y=dollarPrice, fill=Country)) + geom_boxplot() + labs(title="Big Mac prices in Poland and its neighbors",
-                                                                              x="Country",
-                                                                              y="Price (dollar)") + theme_light() + theme(legend.position="left")
+ggplot(polandAndNeighDS, aes(x=Country, y=dollarPrice, fill=Country)) +
+  geom_boxplot() +
+  labs(title="Big Mac prices in Poland and its neighbors", x="Country", y="Price (dollar)") +
+  theme_light() +
+  theme(legend.position="left")
+
 ggsave("results/pricesInPolandAndItsNeighbors.png",
        width=800,
        height=500,
        bg="white",
        dpi=72,
        units="px")
+
+completeData<-polandAndNeighDS[Year(polandAndNeighDS$Date)>=2018,]
+
+ggplot(completeData, aes(x=Country, y=Year(Date), fill=dollarPrice)) +
+  scale_fill_gradient(low = "green", high = "darkgreen") +
+  geom_tile() +
+  theme(legend.position="none") +
+  labs(title="Heatmap of Bigmac prices in recent years", y="Year")
+
+ggsave("results/heatmapPricesInRecentYears.png",
+       width=600,
+       height=600,
+       units="px",
+       dpi=72)
