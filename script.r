@@ -39,4 +39,15 @@ ggsave("results/recordsByYear.png",
 unique(ds$name)
 polandAndNeigh<-ds$name=="Poland" | ds$name=="Russia" | ds$name=="Germany" | ds$name=="Ukraine" | ds$name=="Lithuania" | ds$name=="Czech Republic" | ds$name=="Belarus"  | ds$name=="Slovakia"
 polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
+names(polandAndNeighDS)<-c("Date", "Country", "dollarPrice")
 polandAndNeighDS
+
+ggplot(polandAndNeighDS, aes(x=Country, y=dollarPrice, fill=Country)) + geom_boxplot() + labs(title="Big Mac prices in Poland and its neighbors",
+                                                                              x="Country",
+                                                                              y="Price (dollar)") + theme_light() + theme(legend.position="left")
+ggsave("results/pricesInPolandAndItsNeighbors.png",
+       width=800,
+       height=500,
+       bg="white",
+       dpi=72,
+       units="px")
