@@ -29,10 +29,14 @@ ggplot(recordsByYear, aes(x=., y=Freq)) + geom_bar(stat="identity",
                                                    width=0.6,
                                                    fill="indianred1") + theme_minimal() + labs(title="Number of records by year",
                                                                                          x="Year", y="Frequetion")
-  ggsave("results/recordsByYear.png",
-         width=600,
-         height=400,
-         bg="white",
-         dpi=72,
-         units="px")
-  
+ggsave("results/recordsByYear.png",
+        width=600,
+        height=400,
+        bg="white",
+        dpi=72,
+        units="px")
+
+unique(ds$name)
+polandAndNeigh<-ds$name=="Poland" | ds$name=="Russia" | ds$name=="Germany" | ds$name=="Ukraine" | ds$name=="Lithuania" | ds$name=="Czech Republic" | ds$name=="Belarus"  | ds$name=="Slovakia"
+polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
+polandAndNeighDS
