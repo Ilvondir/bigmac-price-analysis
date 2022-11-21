@@ -136,3 +136,23 @@ ggsave("results/heatmapPricesInRecentYears.png",
        height=600,
        units="px",
        dpi=72)
+
+colnames(ds)
+prices2021<-ds[Year(ds$date)==2021, c("name", "dollar_price")]
+nrow(prices2021)
+table(prices2021$name)
+
+summary(prices2021)
+ggplot(prices2021, aes(x=dollar_price)) +
+  geom_boxplot(fill="violet") +
+  theme_light() +
+  xlim(0, 7) + 
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text=element_text(size=16)) +
+  labs(title="Bigmac price in 2021", x="Price (dollar)")
+ggsave("results/boxplotBigmacPriceIn2021.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
