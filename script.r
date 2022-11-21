@@ -52,9 +52,17 @@ ggsave("results/bigmacPriceAroundTheWorld.png",
 
 
 ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
-  geom_boxplot() +
+  geom_boxplot(outlier.shape=NA) +
   theme_light() +
-  theme(text=element_text(size=15), legend.position="none")
+  theme(text=element_text(size=15), legend.position="none") +
+  labs(title="Boxplot Bigmac price around the world by year", x="", y="") +
+  xlim(0,7)
+
+ggsave("results/boxplotPriceAroundTheWorld.png",
+       width=1000,
+       height=700,
+       dpi=72,
+       units="px")
 
 unique(ds$name)
 
