@@ -37,7 +37,36 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
+with(ds {
+  
+})
+
 unique(ds$name)
+
+USAData<-ds[ds$name=="United States", c("date", "name","dollar_price")]
+USAData
+
+ggplot(USAData, aes(x=dollar_price, y=name, fill=name)) +
+  theme_light() +
+  geom_boxplot() +
+  theme(legend.position="none") +
+  labs(title="Bigmac price in USA", x="Price (dollar)", y="Country")
+
+ggsave("results/boxplotPricesInUSA.png",
+       width=600,
+       height=400,
+       units="px",
+       dpi=72)
+
+head(USAData)
+
+ggplot(USAData, aes(x=Year(date), y=dollar_price)) +
+  geom_point(aes(colour(mean(USAData$dollar_price)))) +
+  theme_light() +
+  labs(title="", x="Year", y="Price (dollar)") +
+  geom_smooth() +
+  geom_hline(yintercept=mean(USAData$dollar_price))
+
 polandAndNeigh<-ds$name=="Poland" | ds$name=="Russia" | ds$name=="Germany" | ds$name=="Ukraine" | ds$name=="Lithuania" | ds$name=="Czech Republic" | ds$name=="Belarus"  | ds$name=="Slovakia"
 polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
 names(polandAndNeighDS)<-c("Date", "Country", "dollarPrice")
@@ -61,11 +90,13 @@ completeData<-polandAndNeighDS[Year(polandAndNeighDS$Date)>=2018,]
 ggplot(completeData, aes(x=Country, y=Year(Date), fill=dollarPrice)) +
   scale_fill_gradient(low = "green", high = "darkgreen") +
   geom_tile() +
-  theme(legend.position="none") +
-  labs(title="Heatmap of Bigmac prices in recent years", y="Year")
+  labs(title="Heatmap of Bigmac prices in recent years", y="Year") +
+  theme_light() +
+  theme(legend.position="none")
 
 ggsave("results/heatmapPricesInRecentYears.png",
        width=600,
        height=600,
        units="px",
        dpi=72)
+
