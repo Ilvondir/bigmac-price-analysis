@@ -24,12 +24,10 @@ recordsByYear<-Year(ds$date) %>%
   table() %>%
   data.frame()
 recordsByYear
-
 ggplot(recordsByYear, aes(x=., y=Freq)) +
   geom_bar(stat="identity", width=0.6, fill="indianred1") +
   theme_minimal() +
   labs(title="Number of records by year", x="Year", y="Frequetion")
-
 ggsave("results/recordsByYear.png",
         width=600,
         height=400,
@@ -37,58 +35,70 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
+ds[, c("date", "dollar_price")]
 ggplot(ds, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
   geom_smooth() +
   theme_light() +
   labs(title="Bigmac price around the world", x="Year", y="Price (dollar)") +
   theme(text=element_text(size = 16))
-
 ggsave("results/bigmacPriceAroundTheWorld.png",
        width=600,
        height=500,
        dpi=72,
        units="px")
 
-
+tapply(ds$dollar_price, Year(ds$date), FUN=summary, na.rm=T)
 ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
   geom_boxplot(outlier.shape=NA) +
   theme_light() +
   theme(text=element_text(size=15), legend.position="none") +
   labs(title="Boxplot Bigmac price around the world by year", x="", y="") +
   xlim(0,7)
-
-ggsave("results/boxplotPriceAroundTheWorld.png",
+ggsave("results/boxplotPriceAroundTheWorldByYear.png",
        width=1000,
        height=700,
        dpi=72,
        units="px")
+
+with(ds, {
+  ds$group<-"World";
+  summary(ds$dollar_price)
+  ggplot(ds, aes(x=group, y=dollar_price, fill=group)) +
+    geom_boxplot(outlier.colour="indianred1") +
+    theme_light() +
+    theme(text=element_text(size=18), legend.position="none") +
+    labs(title="Boxplot Bigmac prices around the world", y="Price (dollar)", x="")
+  ggsave("results/boxplotPriceAroundTheWorld.png",
+         width=500,
+         height=400,
+         dpi=72,
+         units="px")
+})
 
 unique(ds$name)
 
 USAData<-ds[ds$name=="United States", c("date", "name","dollar_price")]
 USAData
 
+summary(USAData$dollar_price)
 ggplot(USAData, aes(x=dollar_price, y=name, fill=name)) +
   theme_light() +
   geom_boxplot() +
   theme(legend.position="none") +
   labs(title="Bigmac price in USA", x="Price (dollar)", y="Country")
-
 ggsave("results/boxplotPricesInUSA.png",
        width=600,
        height=400,
        units="px",
        dpi=72)
 
-head(USAData)
-
+USAData[, c("date", "dollar_price")]
 ggplot(USAData, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
   theme_light() +
   labs(title="Bigmac price in USA", x="Year", y="Price (dollar)") +
   geom_smooth()
-
 ggsave("results/bigmacPriceInUSA.png",
        width=600,
        height=400,
@@ -100,12 +110,12 @@ polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
 names(polandAndNeighDS)<-c("Date", "Country", "dollarPrice")
 polandAndNeighDS
 
+tapply(polandAndNeighDS$dollarPrice, polandAndNeighDS$Country, FUN=summary)
 ggplot(polandAndNeighDS, aes(x=Country, y=dollarPrice, fill=Country)) +
   geom_boxplot() +
   labs(title="Big Mac prices in Poland and its neighbors", x="Country", y="Price (dollar)") +
   theme_light() +
   theme(legend.position="left")
-
 ggsave("results/pricesInPolandAndItsNeighbors.png",
        width=800,
        height=500,
@@ -114,16 +124,35 @@ ggsave("results/pricesInPolandAndItsNeighbors.png",
        units="px")
 
 completeData<-polandAndNeighDS[Year(polandAndNeighDS$Date)>=2018,]
-
+completeData
 ggplot(completeData, aes(x=Country, y=Year(Date), fill=dollarPrice)) +
   scale_fill_gradient(low = "green", high = "darkgreen") +
   geom_tile() +
   labs(title="Heatmap of Bigmac prices in recent years", y="Year") +
   theme_light() +
   theme(legend.position="none")
-
 ggsave("results/heatmapPricesInRecentYears.png",
        width=600,
        height=600,
        units="px",
        dpi=72)
+
+colnames(ds)
+prices2021<-ds[Year(ds$date)==2021, c("name", "dollar_price")]
+nrow(prices2021)
+table(prices2021$name)
+
+summary(prices2021)
+ggplot(prices2021, aes(x=dollar_price)) +
+  geom_boxplot(fill="violet") +
+  theme_light() +
+  xlim(0, 7) + 
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        text=element_text(size=16)) +
+  labs(title="Bigmac price in 2021", x="Price (dollar)")
+ggsave("results/boxplotBigmacPriceIn2021.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
