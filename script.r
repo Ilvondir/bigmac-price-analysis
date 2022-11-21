@@ -58,11 +58,28 @@ ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
   labs(title="Boxplot Bigmac price around the world by year", x="", y="") +
   xlim(0,7)
 
-ggsave("results/boxplotPriceAroundTheWorld.png",
+ggsave("results/boxplotPriceAroundTheWorldByYear.png",
        width=1000,
        height=700,
        dpi=72,
        units="px")
+
+with(ds, {
+  ds$group<-"World";
+  ggplot(ds, aes(x=group, y=dollar_price, fill=group)) +
+    geom_boxplot(outlier.colour="indianred1") +
+    theme_light() +
+    theme(text=element_text(size=18), legend.position="none") +
+    labs(title="Boxplot Bigmac prices around the world", y="Price (dollar)", x="")
+  
+  ggsave("results/boxplotPriceAroundTheWorld.png",
+         width=500,
+         height=400,
+         dpi=72,
+         units="px")
+})
+
+head(ds)
 
 unique(ds$name)
 
