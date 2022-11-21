@@ -42,13 +42,19 @@ ggplot(ds, aes(x=Year(date), y=dollar_price)) +
   geom_smooth() +
   theme_light() +
   labs(title="Bigmac price around the world", x="Year", y="Price (dollar)") +
-  theme(text = element_text(size = 16))
+  theme(text=element_text(size = 16))
 
 ggsave("results/bigmacPriceAroundTheWorld.png",
        width=600,
        height=500,
        dpi=72,
        units="px")
+
+
+ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
+  geom_boxplot() +
+  theme_light() +
+  theme(text=element_text(size=15), legend.position="none")
 
 unique(ds$name)
 
