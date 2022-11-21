@@ -37,9 +37,32 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
-with(ds {
-  
-})
+ggplot(ds, aes(x=Year(date), y=dollar_price)) +
+  geom_point() +
+  geom_smooth() +
+  theme_light() +
+  labs(title="Bigmac price around the world", x="Year", y="Price (dollar)") +
+  theme(text=element_text(size = 16))
+
+ggsave("results/bigmacPriceAroundTheWorld.png",
+       width=600,
+       height=500,
+       dpi=72,
+       units="px")
+
+
+ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
+  geom_boxplot(outlier.shape=NA) +
+  theme_light() +
+  theme(text=element_text(size=15), legend.position="none") +
+  labs(title="Boxplot Bigmac price around the world by year", x="", y="") +
+  xlim(0,7)
+
+ggsave("results/boxplotPriceAroundTheWorld.png",
+       width=1000,
+       height=700,
+       dpi=72,
+       units="px")
 
 unique(ds$name)
 
@@ -61,11 +84,16 @@ ggsave("results/boxplotPricesInUSA.png",
 head(USAData)
 
 ggplot(USAData, aes(x=Year(date), y=dollar_price)) +
-  geom_point(aes(colour(mean(USAData$dollar_price)))) +
+  geom_point() +
   theme_light() +
-  labs(title="", x="Year", y="Price (dollar)") +
-  geom_smooth() +
-  geom_hline(yintercept=mean(USAData$dollar_price))
+  labs(title="Bigmac price in USA", x="Year", y="Price (dollar)") +
+  geom_smooth()
+
+ggsave("results/bigmacPriceInUSA.png",
+       width=600,
+       height=400,
+       units="px",
+       dpi=72)
 
 polandAndNeigh<-ds$name=="Poland" | ds$name=="Russia" | ds$name=="Germany" | ds$name=="Ukraine" | ds$name=="Lithuania" | ds$name=="Czech Republic" | ds$name=="Belarus"  | ds$name=="Slovakia"
 polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
@@ -99,4 +127,3 @@ ggsave("results/heatmapPricesInRecentYears.png",
        height=600,
        units="px",
        dpi=72)
-
