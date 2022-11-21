@@ -35,6 +35,11 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
+recordsByCountry<-table(ds$name) %>%
+  sort(decreasing=T) %>%
+  data.frame()
+recordsByCountry
+
 ds[, c("date", "dollar_price")]
 ggplot(ds, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
