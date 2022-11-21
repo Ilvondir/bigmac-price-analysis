@@ -35,6 +35,11 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
+recordsByCountry<-table(ds$name) %>%
+  sort(decreasing=T) %>%
+  data.frame()
+recordsByCountry
+
 ds[, c("date", "dollar_price")]
 ggplot(ds, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
@@ -120,6 +125,20 @@ ggsave("results/pricesInPolandAndItsNeighbors.png",
        width=800,
        height=500,
        bg="white",
+       dpi=72,
+       units="px")
+
+polandAndNeighDS
+ggplot(polandAndNeighDS, aes(x=Year(Date),y=dollarPrice, shape=Country, color=Country)) +
+  geom_point(size=2.2) +
+  scale_shape_manual(values=c(4, 8, 15, 16, 17, 18, 25)) +
+  scale_color_manual(values=c("red", "green", "gray", "purple", "steelblue", "orange", "violet")) +
+  labs(title="Bigmac price in eastern Europe by year", x="Year", y="Price (dollar)") +
+  theme_light() +
+  theme(text=element_text(size=16))
+ggsave("results/bigmacPriceInEasternEurope.png",
+       width=600,
+       height=400,
        dpi=72,
        units="px")
 
