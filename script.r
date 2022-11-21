@@ -37,6 +37,10 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
+with(ds {
+  
+})
+
 unique(ds$name)
 
 USAData<-ds[ds$name=="United States", c("date", "name","dollar_price")]
@@ -53,6 +57,15 @@ ggsave("results/boxplotPricesInUSA.png",
        height=400,
        units="px",
        dpi=72)
+
+head(USAData)
+
+ggplot(USAData, aes(x=Year(date), y=dollar_price)) +
+  geom_point(aes(colour(mean(USAData$dollar_price)))) +
+  theme_light() +
+  labs(title="", x="Year", y="Price (dollar)") +
+  geom_smooth() +
+  geom_hline(yintercept=mean(USAData$dollar_price))
 
 polandAndNeigh<-ds$name=="Poland" | ds$name=="Russia" | ds$name=="Germany" | ds$name=="Ukraine" | ds$name=="Lithuania" | ds$name=="Czech Republic" | ds$name=="Belarus"  | ds$name=="Slovakia"
 polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
