@@ -1,9 +1,11 @@
 #install.packages("magrittr")
 #install.packages("DescTools")
 #install.packages("ggplot2")
+#install.packages("countrycode")
 library(magrittr)
 library(DescTools)
 library(ggplot2)
+library(countrycode)
 
 ds<-read.csv("datasets/BigmacPrice.csv")
 head(ds, n=10)
@@ -175,3 +177,14 @@ ggsave("results/boxplotBigmacPriceIn2021.png",
        height=400,
        dpi=72,
        units="px")
+
+?countrycode
+ds$continent<-countrycode(ds$name, origin = "country.name", destination="continent")
+ds[is.na(ds$continent),]
+is.na(ds$continent) %>%
+  sum()
+dsByContinent<-ds[!is.na(ds$continent), c("date", "name", "dollar_price", "continent")]
+head(dsByContinent, n=10)
+
+unique(dsByContinent$continent) %>%
+  length()
