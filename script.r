@@ -1,9 +1,11 @@
 #install.packages("magrittr")
 #install.packages("DescTools")
 #install.packages("ggplot2")
+#install.packages("countrycode")
 library(magrittr)
 library(DescTools)
 library(ggplot2)
+library(countrycode)
 
 ds<-read.csv("datasets/BigmacPrice.csv")
 head(ds, n=10)
@@ -171,6 +173,36 @@ ggplot(prices2021, aes(x=dollar_price)) +
         text=element_text(size=16)) +
   labs(title="Bigmac price in 2021", x="Price (dollar)")
 ggsave("results/boxplotBigmacPriceIn2021.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
+
+?countrycode
+ds$continent<-countrycode(ds$name, origin = "country.name", destination="continent")
+ds[is.na(ds$continent),]
+is.na(ds$continent) %>%
+  sum()
+dsByContinent<-ds[!is.na(ds$continent), c("date", "name", "dollar_price", "continent")]
+head(dsByContinent, n=10)
+
+unique(dsByContinent$continent) %>%
+  length()
+
+continental<-table(dsByContinent$continent) %>%
+  data.frame()
+
+colnames(continental)<-c("Continent", "Records")
+head(continental)
+
+#NUMBER OF RECORDS BY CONTINENTS
+ggplot(continental, aes(x=Continent, y=Records, fill=Continent)) +
+  geom_bar(stat="identity") +
+  theme_light() +
+  theme(legend.position="none", text=element_text(size=16)) +
+  labs(title="Number of records by continents") +
+  geom_text(aes(label=Records), vjust=1.6, color="white", size=4.5)
+ggsave("resultS/recordsByContinents.png",
        width=600,
        height=400,
        dpi=72,
