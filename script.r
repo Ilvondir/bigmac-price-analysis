@@ -22,6 +22,7 @@ class(ds$dollar_price)
 
 nrow(ds)
 
+#RECORDS BY YEAR
 recordsByYear<-Year(ds$date) %>%
   table() %>%
   data.frame()
@@ -37,11 +38,7 @@ ggsave("results/recordsByYear.png",
         dpi=72,
         units="px")
 
-recordsByCountry<-table(ds$name) %>%
-  sort(decreasing=T) %>%
-  data.frame()
-recordsByCountry
-
+#BIGMAC PRICE AROUND THE WORLD ALL IN ONE POINTS
 ds[, c("date", "dollar_price")]
 ggplot(ds, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
@@ -55,6 +52,7 @@ ggsave("results/bigmacPriceAroundTheWorld.png",
        dpi=72,
        units="px")
 
+#BIGMAC PRICE AROUND THE WORLD BY YEAR
 tapply(ds$dollar_price, Year(ds$date), FUN=summary, na.rm=T)
 ggplot(ds, aes(x=dollar_price, y=factor(Year(date)), fill=factor(Year(date)))) +
   geom_boxplot(outlier.shape=NA) +
@@ -68,6 +66,7 @@ ggsave("results/boxplotPriceAroundTheWorldByYear.png",
        dpi=72,
        units="px")
 
+#BIGMAC PRICE AROUND THE WORLD
 with(ds, {
   ds$group<-"World";
   summary(ds$dollar_price)
@@ -75,7 +74,7 @@ with(ds, {
     geom_boxplot(outlier.colour="indianred1") +
     theme_light() +
     theme(text=element_text(size=18), legend.position="none") +
-    labs(title="Boxplot Bigmac prices around the world", y="Price (dollar)", x="")
+    labs(title="Boxplot Bigmac price around the world", y="Price (dollar)", x="")
   ggsave("results/boxplotPriceAroundTheWorld.png",
          width=500,
          height=400,
@@ -88,6 +87,7 @@ unique(ds$name)
 USAData<-ds[ds$name=="United States", c("date", "name","dollar_price")]
 USAData
 
+#BIGMAC PRICE IN USA BOXPLOT
 summary(USAData$dollar_price)
 ggplot(USAData, aes(x=dollar_price, y=name, fill=name)) +
   theme_light() +
@@ -100,6 +100,7 @@ ggsave("results/boxplotPricesInUSA.png",
        units="px",
        dpi=72)
 
+#BIGMAC PRICE IN USA POINTS
 USAData[, c("date", "dollar_price")]
 ggplot(USAData, aes(x=Year(date), y=dollar_price)) +
   geom_point() +
@@ -117,10 +118,11 @@ polandAndNeighDS<-ds[polandAndNeigh, c("date", "name", "dollar_price")]
 names(polandAndNeighDS)<-c("Date", "Country", "dollarPrice")
 polandAndNeighDS
 
+#BIGMAC PRICES IN POLAND AND ITS NEIGHBORS
 tapply(polandAndNeighDS$dollarPrice, polandAndNeighDS$Country, FUN=summary)
 ggplot(polandAndNeighDS, aes(x=Country, y=dollarPrice, fill=Country)) +
   geom_boxplot() +
-  labs(title="Big Mac prices in Poland and its neighbors", x="Country", y="Price (dollar)") +
+  labs(title="Bigmac price in Poland and its neighbors", x="Country", y="Price (dollar)") +
   theme_light() +
   theme(legend.position="left")
 ggsave("results/pricesInPolandAndItsNeighbors.png",
@@ -130,6 +132,7 @@ ggsave("results/pricesInPolandAndItsNeighbors.png",
        dpi=72,
        units="px")
 
+#BIGMAC PRICE IN EASTERN EUROPE BY YEAR
 polandAndNeighDS
 ggplot(polandAndNeighDS, aes(x=Year(Date),y=dollarPrice, shape=Country, color=Country)) +
   geom_point(size=2.2) +
@@ -144,6 +147,7 @@ ggsave("results/bigmacPriceInEasternEurope.png",
        dpi=72,
        units="px")
 
+#HEATMAP OF BIGMAC PRICES IN RECENT YEARS
 completeData<-polandAndNeighDS[Year(polandAndNeighDS$Date)>=2018,]
 completeData
 ggplot(completeData, aes(x=Country, y=Year(Date), fill=dollarPrice)) +
@@ -163,6 +167,7 @@ prices2021<-ds[Year(ds$date)==2021, c("name", "dollar_price")]
 nrow(prices2021)
 table(prices2021$name)
 
+#BIGMAC PRICE IN 2021
 summary(prices2021)
 ggplot(prices2021, aes(x=dollar_price)) +
   geom_boxplot(fill="violet") +
