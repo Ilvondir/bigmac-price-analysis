@@ -188,3 +188,22 @@ head(dsByContinent, n=10)
 
 unique(dsByContinent$continent) %>%
   length()
+
+continental<-table(dsByContinent$continent) %>%
+  data.frame()
+
+colnames(continental)<-c("Continent", "Records")
+head(continental)
+
+#NUMBER OF RECORDS BY CONTINENTS
+ggplot(continental, aes(x=Continent, y=Records, fill=Continent)) +
+  geom_bar(stat="identity") +
+  theme_light() +
+  theme(legend.position="none", text=element_text(size=16)) +
+  labs(title="Number of records by continents") +
+  geom_text(aes(label=Records), vjust=1.6, color="white", size=4.5)
+ggsave("resultS/recordsByContinents.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
