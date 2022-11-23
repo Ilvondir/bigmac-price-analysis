@@ -228,3 +228,18 @@ ggsave("resultS/listOfPricesAndContinents.png",
        height=800,
        dpi=72,
        units="px")
+
+condition<-dsByContinent$continent=="Americas"
+dsByContinent[condition, "name"] %>%
+  unique() %>%
+  length()
+
+#BIGMAC PRICES IN AMERICAS
+americasds<-dsByContinent[condition, c("date", "name", "dollar_price")]
+head(americasds)
+tapply(americasds$dollar_price, americasds$name, FUN=summary, na.rm=T)
+ggplot(americasds, aes(x=dollar_price, y=name, fill=name)) +
+  theme_light() +
+  geom_boxplot(outlier.shape=NA) +
+  theme(text=element_text(size=16)) +
+  labs(title="Bigmac price in Americas", x="Price (dollar)", y="Country")
