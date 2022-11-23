@@ -2,10 +2,12 @@
 #install.packages("DescTools")
 #install.packages("ggplot2")
 #install.packages("countrycode")
+#install.packages("gridExtra")
 library(magrittr)
 library(DescTools)
 library(ggplot2)
 library(countrycode)
+library(gridExtra)
 
 ds<-read.csv("datasets/BigmacPrice.csv")
 head(ds, n=10)
@@ -198,17 +200,31 @@ continental<-table(dsByContinent$continent) %>%
   data.frame()
 
 colnames(continental)<-c("Continent", "Records")
-head(continental)
-
 #NUMBER OF RECORDS BY CONTINENTS
-ggplot(continental, aes(x=Continent, y=Records, fill=Continent)) +
+head(continental)
+firstplot<-ggplot(continental, aes(x=Continent, y=Records, fill=Continent)) +
   geom_bar(stat="identity") +
   theme_light() +
-  theme(legend.position="none", text=element_text(size=16)) +
+  theme(legend.position="none", text=element_text(size=20)) +
   labs(title="Number of records by continents") +
-  geom_text(aes(label=Records), vjust=1.6, color="white", size=4.5)
-ggsave("resultS/recordsByContinents.png",
-       width=600,
-       height=400,
+  geom_text(aes(label=Records), vjust=1.6, color="white", size=5.5)
+
+dsByContinent
+
+#BIGMAC PRICES BY CONTINENTS BOXPLOT
+tapply(dsByContinent$dollar_price, dsByContinent$continent, FUN=summary, na.rm=T)
+secondplot<-ggplot(dsByContinent, aes(x=continent, y=dollar_price, fill=continent)) +
+  theme_light() +
+  geom_boxplot(outlier.shape=NA) +
+  ylim(0,8) +
+  labs(title="Bigmac prices by continents", x="Continent", y="Price (dollar)") +
+  theme(legend.position="none", text=element_text(size=20))
+
+g<-grid.arrange(firstplot, secondplot, nrow=2)
+g
+ggsave("resultS/listOfPricesAndContinents.png",
+       plot=g,
+       width=1000,
+       height=800,
        dpi=72,
        units="px")
