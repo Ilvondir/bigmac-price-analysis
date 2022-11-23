@@ -242,4 +242,10 @@ ggplot(americasds, aes(x=dollar_price, y=name, fill=name)) +
   theme_light() +
   geom_boxplot(outlier.shape=NA) +
   theme(text=element_text(size=16)) +
-  labs(title="Bigmac price in Americas", x="Price (dollar)", y="Country")
+  labs(title="Bigmac price in Americas", x="Price (dollar)", y="Country") +
+  guides(fill=guide_legend(title="Countries"))
+ggsave("results/bigmacPricesInAmericas.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
