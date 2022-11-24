@@ -267,4 +267,20 @@ table(dsByContinent$name) %>%
   sort(decreasing=T)
 
 chinaPrices<-dsByContinent[dsByContinent$name == "China",]
-head(chinaPrices)  
+head(chinaPrices)
+
+duplicated<-!duplicated(Year(chinaPrices$date))
+chinaPrices<-chinaPrices[duplicated,]
+#BIGMAC PRICES IN CHINA LINE AND POINT
+chinaPrices
+ggplot(chinaPrices, aes(x=Year(date),y=dollar_price)) +
+  theme_light() +
+  geom_line(colour="purple", size=0.8) +
+  geom_point(colour="purple", size=2.5) +
+  labs(title="Bigmac price in China", x="Year", y="Price (dollar)") +
+  theme(text=element_text(size=16))
+ggsave("results/bigmacPriceinChina.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
