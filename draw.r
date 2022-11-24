@@ -1,8 +1,6 @@
 #install.packages("draw")
 library(draw)
 
-??draw
-
 drawSettings(pageWidth=12, pageHeight=10, units="inches")
 drawPage()
 
@@ -60,7 +58,7 @@ drawBox(6, 3.65,
         lineColor="#C68958",
         radius=0.2)
 
-#Up lettuce
+#Upper lettuce
 drawBox(6, 4.1,
         width=6.05,
         height=0.05,
@@ -68,7 +66,7 @@ drawBox(6, 4.1,
         lineColor="green",
         radius=0.05)
 
-#Up cheese
+#Upper cheese
 drawBox(6, 4.175,
         width=5.9,
         height=0.1,
@@ -76,12 +74,26 @@ drawBox(6, 4.175,
         lineColor="#FBDB65",
         radius=0.05)
 
-#Up meat
+#Upper meat
 drawBox(6, 4.526,
         width=5.9,
         height=0.6,
         fillColor="#562807",
         lineColor="#562807",
         radius=0.2)
+
+#Upper roll
+drawBox(6, 5.3,
+        width=6,
+        height=1,
+        fillColor="#C68958",
+        lineColor="#C68958",
+        radius=0.3)
+drawBox(6, 5.5,
+        width=6,
+        height=1,
+        fillColor="#C68958",
+        lineColor="#C68958",
+        radius=0.5)
 
 drawExport("results/Bigmac.png")
