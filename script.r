@@ -249,3 +249,16 @@ ggsave("results/bigmacPricesInAmericas.png",
        height=400,
        dpi=72,
        units="px")
+
+#DOTPLOT BIGMAC PRICES IN AMERICAS GROUPED
+ggplot(americasds, aes(x=Year(date), y=dollar_price, color=name)) +
+  geom_point() +
+  theme_light() +
+  theme(text=element_text(size=16)) +
+  labs(title="Grouped Bigmac prices in Americas", x="Year", y="Price (dollar)") +
+  geom_smooth(method="loess", se=F, size=0.5)
+ggsave("results/pricesInAmericaGrouped.png",
+       width=700,
+       height=500,
+       dpi=72,
+       units="px")
