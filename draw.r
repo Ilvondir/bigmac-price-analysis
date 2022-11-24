@@ -96,4 +96,12 @@ drawBox(6, 5.5,
         lineColor="#C68958",
         radius=0.5)
 
+#Seeds
+drawBox(6, 5.5,
+        width=0.2,
+        height=0.1,
+        fillColor="lightyellow",
+        lineColor="lightyellow",
+        radius=0.05)
+
 drawExport("results/Bigmac.png")
