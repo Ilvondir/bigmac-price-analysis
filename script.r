@@ -262,3 +262,9 @@ ggsave("results/pricesInAmericaGrouped.png",
        height=500,
        dpi=72,
        units="px")
+
+table(dsByContinent$name) %>%
+  sort(decreasing=T)
+
+chinaPrices<-dsByContinent[dsByContinent$name == "China",]
+head(chinaPrices)  
