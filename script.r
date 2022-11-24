@@ -284,3 +284,18 @@ ggsave("results/bigmacPriceinChina.png",
        height=400,
        dpi=72,
        units="px")
+
+#Sri Lana inflation bar plot
+sriLankaInf<-ds[ds$name=="Sri Lanka", c("date", "dollar_ex")]
+sriLankaInf
+SriLankaplot<-ggplot(sriLankaInf, aes(x=Year(date), y=dollar_ex))
+SriLankaplot +
+  geom_bar(stat="identity", fill="steelblue") +
+  labs(title="Dollar exchange rate in Sri Lanka", x="Year", y="Exchange rate") +
+  theme_light() +
+  theme(text=element_text(size=16))
+ggsave("results/barplotOfDollarExchangeRateInSriLanka.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
