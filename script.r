@@ -249,3 +249,38 @@ ggsave("results/bigmacPricesInAmericas.png",
        height=400,
        dpi=72,
        units="px")
+
+#DOTPLOT BIGMAC PRICES IN AMERICAS GROUPED
+ggplot(americasds, aes(x=Year(date), y=dollar_price, color=name)) +
+  geom_point() +
+  theme_light() +
+  theme(text=element_text(size=16)) +
+  labs(title="Grouped Bigmac prices in Americas", x="Year", y="Price (dollar)") +
+  geom_smooth(method="loess", se=F, size=0.5)
+ggsave("results/pricesInAmericaGrouped.png",
+       width=700,
+       height=500,
+       dpi=72,
+       units="px")
+
+table(dsByContinent$name) %>%
+  sort(decreasing=T)
+
+chinaPrices<-dsByContinent[dsByContinent$name == "China",]
+head(chinaPrices)
+
+duplicated<-!duplicated(Year(chinaPrices$date))
+chinaPrices<-chinaPrices[duplicated,]
+#BIGMAC PRICES IN CHINA LINE AND POINT
+chinaPrices
+ggplot(chinaPrices, aes(x=Year(date),y=dollar_price)) +
+  theme_light() +
+  geom_line(colour="purple", size=0.8) +
+  geom_point(colour="purple", size=2.5) +
+  labs(title="Bigmac price in China", x="Year", y="Price (dollar)") +
+  theme(text=element_text(size=16))
+ggsave("results/bigmacPriceinChina.png",
+       width=600,
+       height=400,
+       dpi=72,
+       units="px")
