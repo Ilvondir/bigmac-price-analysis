@@ -3,7 +3,11 @@
 
 ## Used Tools
 - R 4.2.2
-- ggplot2
+- ggplot2 3.4.0
+- maggritr 2.0.3
+- gridExtra 2.3
+- draw
+- DescTools 0.99.47
 
 ## Requirements
 - [R](https://cran.r-project.org/bin/windows/base)
