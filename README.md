@@ -1,5 +1,5 @@
-# Bigmac Price Analysis
-Analysis of BigMac price data from almost all over the world. The main element of this analysis are numerous charts that allow you to track the prices of this fast food in an accessible way. The project includes boxplots, lineplots, scatterplots, heatmaps and barplots. Besides, there is also an illustration drawn with the R language.
+# Big Mac Price Analysis
+Analysis of Big Mac price data from almost all over the world. The main element of this analysis are numerous charts that allow you to track the prices of this fast food in an accessible way. The project includes boxplots, lineplots, scatterplots, heatmaps and barplots. Besides, there is also an illustration drawn with the R language.
 
 ## Used Tools
 - R 4.2.2
@@ -16,4 +16,5 @@ Analysis of BigMac price data from almost all over the world. The main element o
 ## How to run
 1. Execute command `git clone https://github.com/Ilvondir/r-bigmac-price-analysis`.
 2. Open R-scripts at R/RStudio.
-3. Select all the code and execute it.
+3. Install all missing packages.
+4. Select all the code and execute it.
