@@ -14,7 +14,7 @@ Analysis of Big Mac price data from almost all over the world. The main element 
 - [RStudio](https://posit.co/downloads) (optional)
 
 ## How to run
-1. Execute command `git clone https://github.com/Ilvondir/r-bigmac-price-analysis`.
+1. Execute command `git clone https://github.com/Ilvondir/bigmac-price-analysis`.
 2. Open R-scripts at R/RStudio.
 3. Install all missing packages.
 4. Select all the code and execute it.
